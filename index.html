@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>사회 시험 대비 학습 자료</title>
   <meta name="description" content="사회 과목 시험 대비 플래시카드, 4지선다, 단답형 퀴즈 종합 학습 자료">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,9 +11,7 @@
   <style>
     :root {
       --bg-primary: #0a0e1a;
-      --bg-secondary: #111827;
       --bg-card: #1a2035;
-      --bg-card-hover: #1f2847;
       --surface: #252d44;
       --border: rgba(255,255,255,0.06);
       --border-glow: rgba(99,102,241,0.3);
@@ -22,776 +20,653 @@
       --text-muted: #64748b;
       --accent-1: #818cf8;
       --accent-2: #6366f1;
-      --accent-3: #4f46e5;
       --green: #34d399;
-      --green-bg: rgba(52,211,153,0.1);
+      --green-bg: rgba(52,211,153,0.12);
       --red: #f87171;
-      --red-bg: rgba(248,113,113,0.1);
-      --yellow: #fbbf24;
-      --yellow-bg: rgba(251,191,36,0.1);
+      --red-bg: rgba(248,113,113,0.12);
       --blue: #60a5fa;
-      --blue-bg: rgba(96,165,250,0.1);
       --purple: #a78bfa;
-      --purple-bg: rgba(167,139,250,0.1);
       --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
       --glass: rgba(255,255,255,0.03);
       --glass-border: rgba(255,255,255,0.08);
-      --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.5);
-      --shadow-glow: 0 0 40px rgba(99,102,241,0.15);
+      --shadow-lg: 0 20px 40px -12px rgba(0,0,0,0.5);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       font-family: 'Noto Sans KR', sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      min-height: 100vh;
+      min-height: 100dvh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ===== Animated Background ===== */
-    .bg-orbs {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-    }
-    .bg-orbs .orb {
-      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15;
-      animation: float 20s ease-in-out infinite;
-    }
-    .bg-orbs .orb:nth-child(1) {
-      width: 600px; height: 600px; background: #6366f1; top: -10%; left: -5%;
-      animation-duration: 25s;
-    }
-    .bg-orbs .orb:nth-child(2) {
-      width: 500px; height: 500px; background: #8b5cf6; bottom: -10%; right: -5%;
-      animation-duration: 30s; animation-delay: -5s;
-    }
-    .bg-orbs .orb:nth-child(3) {
-      width: 400px; height: 400px; background: #06b6d4; top: 50%; left: 50%;
-      animation-duration: 22s; animation-delay: -10s;
-    }
+    /* ===== Background ===== */
+    .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .bg-orbs .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.12; animation: float 25s ease-in-out infinite; }
+    .bg-orbs .orb:nth-child(1) { width: 400px; height: 400px; background: #6366f1; top: -10%; left: -10%; }
+    .bg-orbs .orb:nth-child(2) { width: 350px; height: 350px; background: #8b5cf6; bottom: -10%; right: -10%; animation-delay: -8s; }
     @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -50px) scale(1.05); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
+      0%, 100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(20px,-30px) scale(1.05); }
     }
 
-    /* ===== Container ===== */
-    .container {
+    /* ===== Layout ===== */
+    .app {
       position: relative; z-index: 1;
-      max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;
+      max-width: 480px; margin: 0 auto;
+      padding: 0 1rem;
+      display: flex; flex-direction: column;
+      min-height: 100dvh;
     }
 
     /* ===== Header ===== */
     .header {
-      text-align: center; padding: 3rem 0 2rem;
-      animation: fadeInDown 0.8s ease-out;
+      text-align: center; padding: 1.5rem 0 1rem;
+      flex-shrink: 0;
     }
     .header h1 {
-      font-size: 2.8rem; font-weight: 900;
-      background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
+      font-size: 1.6rem; font-weight: 900;
+      background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; letter-spacing: -1px; margin-bottom: 0.5rem;
-    }
-    .header p {
-      font-size: 1.1rem; color: var(--text-secondary); font-weight: 300;
+      background-clip: text; letter-spacing: -0.5px;
     }
 
-    /* ===== Tab Navigation ===== */
+    /* ===== Tab Nav ===== */
     .tab-nav {
-      display: flex; gap: 0.5rem; justify-content: center; margin: 2rem 0;
-      flex-wrap: wrap; animation: fadeInUp 0.6s ease-out 0.2s both;
+      display: flex; gap: 6px; justify-content: center;
+      padding: 0.5rem 0; flex-shrink: 0;
     }
     .tab-btn {
-      padding: 0.7rem 1.5rem; border: 1px solid var(--glass-border);
-      background: var(--glass); color: var(--text-secondary);
-      border-radius: 100px; cursor: pointer; font-size: 0.95rem;
-      font-family: 'Noto Sans KR', sans-serif; font-weight: 500;
-      transition: all 0.3s ease; backdrop-filter: blur(10px);
-    }
-    .tab-btn:hover {
-      background: rgba(99,102,241,0.1); color: var(--accent-1);
-      border-color: var(--border-glow); transform: translateY(-2px);
+      padding: 0.5rem 1rem; border: 1px solid var(--glass-border);
+      background: var(--glass); color: var(--text-muted);
+      border-radius: 100px; cursor: pointer; font-size: 0.82rem;
+      font-family: inherit; font-weight: 600; transition: all 0.3s;
     }
     .tab-btn.active {
       background: var(--gradient-1); color: white;
-      border-color: transparent; box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+      border-color: transparent; box-shadow: 0 4px 12px rgba(99,102,241,0.35);
     }
 
-    /* ===== Sections ===== */
-    .section { display: none; animation: fadeIn 0.5s ease-out; }
-    .section.active { display: block; }
-
-    /* ===== Unit Selector ===== */
-    .unit-selector {
-      display: flex; gap: 0.5rem; justify-content: center;
-      margin-bottom: 2rem; flex-wrap: wrap;
+    /* ===== Unit Pills ===== */
+    .unit-pills {
+      display: flex; gap: 6px; justify-content: center;
+      padding: 0.6rem 0; flex-shrink: 0; flex-wrap: wrap;
     }
-    .unit-btn {
-      padding: 0.5rem 1.2rem; border-radius: 12px; cursor: pointer;
-      font-size: 0.85rem; font-weight: 600; font-family: 'Noto Sans KR', sans-serif;
+    .unit-pill {
+      padding: 0.35rem 0.8rem; border-radius: 10px; cursor: pointer;
+      font-size: 0.75rem; font-weight: 700; font-family: inherit;
       border: 1px solid var(--glass-border); background: var(--glass);
-      color: var(--text-secondary); transition: all 0.3s;
+      color: var(--text-muted); transition: all 0.3s;
     }
-    .unit-btn:hover { transform: translateY(-2px); }
-    .unit-btn.active { color: white; border-color: transparent; }
-    .unit-btn[data-unit="1"].active { background: var(--gradient-1); }
-    .unit-btn[data-unit="2"].active { background: var(--gradient-2); }
-    .unit-btn[data-unit="3"].active { background: var(--gradient-3); }
-    .unit-btn[data-unit="4"].active { background: var(--gradient-4); }
+    .unit-pill.active { color: white; border-color: transparent; }
+    .unit-pill[data-u="1"].active { background: var(--gradient-1); }
+    .unit-pill[data-u="2"].active { background: var(--gradient-2); }
+    .unit-pill[data-u="3"].active { background: var(--gradient-3); }
+    .unit-pill[data-u="4"].active { background: var(--gradient-4); }
+
+    /* ===== Card Stage ===== */
+    .stage {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 0.5rem 0;
+      min-height: 0;
+    }
 
     /* ===== Flashcard ===== */
-    .flashcard-area {
-      perspective: 1200px; margin: 0 auto;
-      max-width: 600px; min-height: 320px;
-    }
-    .flashcard-wrapper {
-      position: relative; width: 100%; min-height: 320px;
-      cursor: pointer; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    .fc-scene { perspective: 1000px; width: 100%; }
+    .fc-card {
+      position: relative; width: 100%; min-height: 260px;
+      cursor: pointer; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
       transform-style: preserve-3d;
     }
-    .flashcard-wrapper.flipped { transform: rotateY(180deg); }
-    .flashcard-front, .flashcard-back {
-      position: absolute; inset: 0; border-radius: 24px; padding: 2.5rem;
+    .fc-card.flipped { transform: rotateY(180deg); }
+    .fc-face {
+      position: absolute; inset: 0; border-radius: 20px; padding: 2rem 1.5rem;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       backface-visibility: hidden; -webkit-backface-visibility: hidden;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--glass-border); box-shadow: var(--shadow-lg);
     }
-    .flashcard-front {
-      background: linear-gradient(145deg, var(--bg-card), var(--surface));
+    .fc-front { background: linear-gradient(145deg, var(--bg-card), var(--surface)); }
+    .fc-back { background: linear-gradient(145deg, #1a1f3a, #252d55); transform: rotateY(180deg); }
+    .fc-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent-1); margin-bottom: 0.8rem; font-weight: 800;
     }
-    .flashcard-back {
-      background: linear-gradient(145deg, #1a1f3a, #252d55);
-      transform: rotateY(180deg);
-    }
-    .flashcard-label {
-      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--accent-1); margin-bottom: 1rem; font-weight: 700;
-    }
-    .flashcard-content {
-      font-size: 1.2rem; text-align: center; line-height: 1.8;
+    .fc-text {
+      font-size: 1.05rem; text-align: center; line-height: 1.8;
       font-weight: 500; word-break: keep-all;
     }
-    .flashcard-back .flashcard-content { color: var(--green); }
-    .flashcard-hint {
-      position: absolute; bottom: 1.2rem;
-      font-size: 0.75rem; color: var(--text-muted);
-    }
-    .flashcard-counter {
-      text-align: center; margin-top: 1.5rem;
-      color: var(--text-muted); font-size: 0.9rem;
-    }
-    .flashcard-nav {
-      display: flex; gap: 1rem; justify-content: center; margin-top: 1.2rem;
-    }
-    .nav-btn {
-      padding: 0.7rem 2rem; border-radius: 14px; cursor: pointer;
-      font-size: 0.9rem; font-weight: 600; font-family: 'Noto Sans KR', sans-serif;
-      border: 1px solid var(--glass-border); background: var(--glass);
-      color: var(--text-secondary); transition: all 0.3s;
-    }
-    .nav-btn:hover {
-      background: rgba(99,102,241,0.15); color: var(--accent-1);
-      transform: translateY(-2px);
+    .fc-back .fc-text { color: var(--green); }
+    .fc-tap {
+      position: absolute; bottom: 1rem;
+      font-size: 0.65rem; color: var(--text-muted);
     }
 
-    /* ===== Quiz ===== */
-    .quiz-card {
+    /* ===== Quiz Card (one at a time) ===== */
+    .qcard {
       background: linear-gradient(145deg, var(--bg-card), var(--surface));
-      border: 1px solid var(--glass-border); border-radius: 24px;
-      padding: 2rem; margin-bottom: 1.5rem;
-      transition: all 0.3s; animation: fadeInUp 0.5s ease-out both;
+      border: 1px solid var(--glass-border); border-radius: 20px;
+      padding: 1.5rem; box-shadow: var(--shadow-lg);
+      animation: slideIn 0.35s ease-out;
     }
-    .quiz-card:hover { border-color: var(--border-glow); }
-    .quiz-number {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px; border-radius: 10px; font-size: 0.85rem;
-      font-weight: 700; margin-bottom: 1rem;
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
     }
-    .quiz-card[data-unit="1"] .quiz-number { background: rgba(129,140,248,0.15); color: var(--accent-1); }
-    .quiz-card[data-unit="2"] .quiz-number { background: rgba(248,113,113,0.15); color: var(--red); }
-    .quiz-card[data-unit="3"] .quiz-number { background: rgba(96,165,250,0.15); color: var(--blue); }
-    .quiz-card[data-unit="4"] .quiz-number { background: rgba(52,211,153,0.15); color: var(--green); }
-    .quiz-question {
-      font-size: 1.05rem; font-weight: 600; line-height: 1.7;
+    .qcard-badge {
+      display: inline-block; padding: 0.25rem 0.7rem; border-radius: 8px;
+      font-size: 0.7rem; font-weight: 800; margin-bottom: 0.8rem;
+    }
+    .qcard-q {
+      font-size: 1rem; font-weight: 600; line-height: 1.7;
       margin-bottom: 1.2rem; word-break: keep-all;
     }
-    .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
-    .quiz-option {
-      padding: 0.85rem 1.2rem; border-radius: 14px;
+
+    /* MC options */
+    .mc-opts { display: flex; flex-direction: column; gap: 8px; }
+    .mc-opt {
+      padding: 0.75rem 1rem; border-radius: 12px;
       border: 1px solid var(--glass-border); background: var(--glass);
-      cursor: pointer; font-size: 0.95rem; font-weight: 400;
-      font-family: 'Noto Sans KR', sans-serif; color: var(--text-secondary);
+      cursor: pointer; font-size: 0.9rem; font-weight: 400;
+      font-family: inherit; color: var(--text-secondary);
       transition: all 0.25s; text-align: left; line-height: 1.5;
     }
-    .quiz-option:hover:not(.selected):not(.disabled) {
-      background: rgba(99,102,241,0.08); border-color: var(--border-glow);
-      color: var(--text-primary); transform: translateX(4px);
-    }
-    .quiz-option.correct {
+    .mc-opt:active:not(.locked) { transform: scale(0.97); }
+    .mc-opt.correct {
       background: var(--green-bg); border-color: var(--green);
       color: var(--green); font-weight: 600;
     }
-    .quiz-option.wrong {
+    .mc-opt.wrong {
       background: var(--red-bg); border-color: var(--red);
       color: var(--red); font-weight: 600;
     }
-    .quiz-option.disabled { cursor: default; opacity: 0.6; }
-    .quiz-explanation {
-      margin-top: 1rem; padding: 1rem 1.2rem; border-radius: 14px;
+    .mc-opt.locked { cursor: default; opacity: 0.55; }
+    .mc-opt.correct.locked { opacity: 1; }
+    .mc-exp {
+      margin-top: 0.8rem; padding: 0.8rem 1rem; border-radius: 12px;
       background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15);
-      font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary);
-      display: none; animation: fadeIn 0.3s ease-out;
+      font-size: 0.82rem; line-height: 1.6; color: var(--text-secondary);
+      animation: fadeIn 0.3s;
     }
-    .quiz-explanation.show { display: block; }
 
-    /* ===== Short Answer Quiz ===== */
-    .short-card {
-      background: linear-gradient(145deg, var(--bg-card), var(--surface));
-      border: 1px solid var(--glass-border); border-radius: 24px;
-      padding: 2rem; margin-bottom: 1.5rem;
-      transition: all 0.3s; animation: fadeInUp 0.5s ease-out both;
-    }
-    .short-card:hover { border-color: var(--border-glow); }
-    .short-input-group {
-      display: flex; gap: 0.7rem; margin-top: 1rem; flex-wrap: wrap;
-    }
-    .short-input {
-      flex: 1; min-width: 180px; padding: 0.8rem 1.2rem; border-radius: 14px;
+    /* Short answer input */
+    .sa-inputs { display: flex; flex-direction: column; gap: 8px; margin-top: 0.3rem; }
+    .sa-row { display: flex; gap: 8px; }
+    .sa-input {
+      flex: 1; padding: 0.75rem 1rem; border-radius: 12px;
       border: 1px solid var(--glass-border); background: var(--glass);
       color: var(--text-primary); font-size: 0.95rem;
-      font-family: 'Noto Sans KR', sans-serif;
-      transition: all 0.3s; outline: none;
+      font-family: inherit; transition: all 0.3s; outline: none;
     }
-    .short-input:focus {
-      border-color: var(--accent-1);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
-    }
-    .short-input.correct { border-color: var(--green); background: var(--green-bg); }
-    .short-input.wrong { border-color: var(--red); background: var(--red-bg); }
-    .check-btn {
-      padding: 0.8rem 1.5rem; border-radius: 14px; cursor: pointer;
-      font-size: 0.9rem; font-weight: 600; font-family: 'Noto Sans KR', sans-serif;
+    .sa-input:focus { border-color: var(--accent-1); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+    .sa-input.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+    .sa-input.wrong { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+    .sa-submit {
+      padding: 0.75rem 1.3rem; border-radius: 12px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 700; font-family: inherit;
       border: none; background: var(--gradient-1); color: white;
       transition: all 0.3s; white-space: nowrap;
     }
-    .check-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(99,102,241,0.4); }
-    .short-answer {
-      margin-top: 0.8rem; padding: 0.8rem 1.2rem; border-radius: 14px;
-      font-size: 0.9rem; line-height: 1.6; display: none;
+    .sa-submit:active { transform: scale(0.95); }
+    .sa-result {
+      margin-top: 0.7rem; padding: 0.7rem 1rem; border-radius: 12px;
+      font-size: 0.85rem; line-height: 1.5; animation: fadeIn 0.3s;
     }
-    .short-answer.show { display: block; animation: fadeIn 0.3s ease-out; }
-    .short-answer.correct-answer { background: var(--green-bg); color: var(--green); }
-    .short-answer.wrong-answer { background: var(--red-bg); color: var(--red); }
+    .sa-result.ok { background: var(--green-bg); color: var(--green); }
+    .sa-result.fail { background: var(--red-bg); color: var(--red); }
 
-    /* ===== Score Board ===== */
-    .score-board {
-      text-align: center; padding: 2rem; margin-bottom: 2rem;
+    /* ===== Bottom Bar ===== */
+    .bottom-bar {
+      flex-shrink: 0; padding: 0.8rem 0 1.2rem;
+      display: flex; flex-direction: column; gap: 0.6rem; align-items: center;
+    }
+    .counter {
+      font-size: 0.8rem; color: var(--text-muted); font-weight: 600;
+    }
+    .progress-track {
+      width: 100%; height: 5px; background: var(--surface);
+      border-radius: 100px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 100px; transition: width 0.4s ease;
+      background: var(--gradient-1);
+    }
+    .nav-row {
+      display: flex; gap: 10px; width: 100%;
+    }
+    .nav-btn {
+      flex: 1; padding: 0.7rem; border-radius: 12px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 600; font-family: inherit;
+      border: 1px solid var(--glass-border); background: var(--glass);
+      color: var(--text-secondary); transition: all 0.2s;
+      text-align: center;
+    }
+    .nav-btn:active { transform: scale(0.96); }
+    .nav-btn.primary {
+      background: var(--gradient-1); color: white;
+      border-color: transparent; box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+    }
+
+    /* ===== Score Overlay ===== */
+    .score-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(10,14,26,0.92); backdrop-filter: blur(10px);
+      display: flex; justify-content: center; align-items: center;
+      animation: fadeIn 0.3s;
+    }
+    .score-overlay.hidden { display: none; }
+    .score-box {
+      text-align: center; padding: 2.5rem 2rem;
       background: linear-gradient(145deg, var(--bg-card), var(--surface));
       border: 1px solid var(--glass-border); border-radius: 24px;
+      box-shadow: var(--shadow-lg); max-width: 320px; width: 90%;
     }
-    .score-big {
-      font-size: 3.5rem; font-weight: 900;
+    .score-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .score-num {
+      font-size: 3rem; font-weight: 900;
       background: linear-gradient(135deg, var(--green), var(--blue));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .score-label { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
-    .reset-btn {
-      margin-top: 1.2rem; padding: 0.7rem 2rem; border-radius: 14px;
+    .score-sub { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
+    .score-actions { display: flex; gap: 10px; margin-top: 1.5rem; justify-content: center; }
+    .score-btn {
+      padding: 0.65rem 1.5rem; border-radius: 12px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 700; font-family: inherit;
       border: 1px solid var(--glass-border); background: var(--glass);
-      color: var(--text-secondary); cursor: pointer; font-size: 0.9rem;
-      font-weight: 600; font-family: 'Noto Sans KR', sans-serif; transition: all 0.3s;
+      color: var(--text-secondary); transition: all 0.2s;
     }
-    .reset-btn:hover { background: rgba(248,113,113,0.1); color: var(--red); border-color: var(--red); }
+    .score-btn:active { transform: scale(0.95); }
+    .score-btn.primary { background: var(--gradient-1); color: white; border-color: transparent; }
 
-    /* ===== Animations ===== */
+    /* ===== Utilities ===== */
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .hidden { display: none !important; }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 640px) {
-      .header h1 { font-size: 2rem; }
-      .container { padding: 1rem 1rem 3rem; }
-      .flashcard-front, .flashcard-back { padding: 1.5rem; }
-      .flashcard-content { font-size: 1rem; }
-      .tab-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
-      .quiz-card, .short-card { padding: 1.5rem; }
+    /* ===== Mobile tweaks ===== */
+    @media (max-height: 700px) {
+      .header { padding: 0.8rem 0 0.5rem; }
+      .header h1 { font-size: 1.3rem; }
+      .fc-face { padding: 1.5rem 1.2rem; min-height: 220px; }
+      .fc-card { min-height: 220px; }
+      .qcard { padding: 1.2rem; }
+      .qcard-q { font-size: 0.92rem; margin-bottom: 0.8rem; }
     }
-
-    /* ===== Progress Bar ===== */
-    .progress-bar-wrap {
-      width: 100%; height: 6px; background: var(--surface);
-      border-radius: 100px; margin-top: 1rem; overflow: hidden;
-    }
-    .progress-bar-fill {
-      height: 100%; border-radius: 100px; transition: width 0.5s ease;
-      background: var(--gradient-1);
-    }
-
-    /* ===== Confetti effect for perfect score ===== */
-    .confetti-container {
-      position: fixed; inset: 0; pointer-events: none; z-index: 999;
-    }
-    .confetti {
-      position: absolute; width: 10px; height: 10px; opacity: 0;
+    @media (min-width: 481px) {
+      .header h1 { font-size: 1.8rem; }
+      .fc-text { font-size: 1.15rem; }
+      .qcard-q { font-size: 1.05rem; }
     }
   </style>
 </head>
 <body>
 
-<div class="bg-orbs">
-  <div class="orb"></div>
-  <div class="orb"></div>
-  <div class="orb"></div>
-</div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div></div>
 
-<div class="container">
+<div class="app">
   <header class="header">
     <h1>📚 사회 시험 대비</h1>
-    <p>플래시카드 · 4지선다 · 단답형 퀴즈</p>
   </header>
 
-  <nav class="tab-nav">
-    <button class="tab-btn active" data-tab="flashcard">🃏 플래시카드</button>
-    <button class="tab-btn" data-tab="quiz">📋 4지선다</button>
-    <button class="tab-btn" data-tab="short">✏️ 단답형</button>
-  </nav>
+  <nav class="tab-nav" id="tabNav"></nav>
+  <div class="unit-pills" id="unitPills"></div>
 
-  <!-- ==================== FLASHCARD SECTION ==================== -->
-  <section id="sec-flashcard" class="section active">
-    <div class="unit-selector" id="fc-units"></div>
-    <div class="flashcard-area" id="fc-area">
-      <div class="flashcard-wrapper" id="fc-wrapper" onclick="flipCard()">
-        <div class="flashcard-front">
-          <div class="flashcard-label">질문</div>
-          <div class="flashcard-content" id="fc-front-text"></div>
-          <div class="flashcard-hint">클릭하여 뒤집기</div>
-        </div>
-        <div class="flashcard-back">
-          <div class="flashcard-label">정답</div>
-          <div class="flashcard-content" id="fc-back-text"></div>
-          <div class="flashcard-hint">클릭하여 돌아가기</div>
-        </div>
-      </div>
-    </div>
-    <div class="flashcard-counter" id="fc-counter"></div>
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="fc-progress"></div></div>
-    <div class="flashcard-nav">
-      <button class="nav-btn" onclick="fcPrev()">← 이전</button>
-      <button class="nav-btn" onclick="fcShuffle()">🔀 섞기</button>
-      <button class="nav-btn" onclick="fcNext()">다음 →</button>
-    </div>
-  </section>
+  <div class="stage" id="stage"></div>
 
-  <!-- ==================== MULTIPLE CHOICE SECTION ==================== -->
-  <section id="sec-quiz" class="section">
-    <div class="unit-selector" id="qz-units"></div>
-    <div class="score-board" id="qz-score-board">
-      <div class="score-big" id="qz-score">0 / 0</div>
-      <div class="score-label">정답률</div>
-      <button class="reset-btn" onclick="resetQuiz()">🔄 다시 풀기</button>
-    </div>
-    <div id="qz-list"></div>
-  </section>
-
-  <!-- ==================== SHORT ANSWER SECTION ==================== -->
-  <section id="sec-short" class="section">
-    <div class="unit-selector" id="sa-units"></div>
-    <div class="score-board" id="sa-score-board">
-      <div class="score-big" id="sa-score">0 / 0</div>
-      <div class="score-label">정답률</div>
-      <button class="reset-btn" onclick="resetShort()">🔄 다시 풀기</button>
-    </div>
-    <div id="sa-list"></div>
-  </section>
+  <div class="bottom-bar" id="bottomBar">
+    <div class="counter" id="counter"></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="nav-row" id="navRow"></div>
+  </div>
 </div>
 
+<div class="score-overlay hidden" id="scoreOverlay"></div>
+
 <script>
-// ===== DATA =====
-const flashcards = {
-  1: [
-    { q: "인권의 특성 4가지는?", a: "① 천부적(불가침) ② 양도 불가 ③ 보편적 ④ 시대·지역 차별 없음" },
-    { q: "기본권이란?", a: "헌법에 기록된 인권" },
-    { q: "행복추구권의 성격은?", a: "기본권 보장의 기초, 포괄적 권리" },
-    { q: "자유권의 성격은?", a: "소극적 권리 — 국가 권력으로부터의 자유" },
-    { q: "사회권의 성격은?", a: "적극적 권리 — 국가에 요구 (교육·근로·인간다운 생활)" },
-    { q: "참정권의 성격은?", a: "능동적 권리 — 선거권, 공무담임권, 국민투표권" },
-    { q: "청구권의 종류 3가지는?", a: "재판 청구권, 국가배상청구권, 청원권" },
-    { q: "기본권 제한의 3가지 사유는?", a: "국가안전 보장, 질서유지, 공공복리" },
-    { q: "기본권 제한 시 반드시 지켜야 할 원칙은?", a: "법률로써 제한, 본질적 내용 침해 불가" },
-    { q: "노동3권은?", a: "단결권, 단체교섭권, 단체행동권" },
-    { q: "부당해고 vs 부당노동행위 차이는?", a: "부당해고 = 근로조건 침해 / 부당노동행위 = 노동3권 침해" },
-    { q: "노동권 침해 시 구제 방법은?", a: "지방노동위원회 구제 신청 → 행정소송 또는 민사소송" },
+// ========== DATA ==========
+const FC = {
+  1:[
+    {q:"인권의 특성 4가지는?",a:"① 천부적(불가침) ② 양도 불가 ③ 보편적 ④ 시대·지역 차별 없음"},
+    {q:"기본권이란?",a:"헌법에 기록된 인권"},
+    {q:"행복추구권의 성격은?",a:"기본권 보장의 기초, 포괄적 권리"},
+    {q:"자유권의 성격은?",a:"소극적 권리 — 국가 권력으로부터의 자유"},
+    {q:"사회권의 성격은?",a:"적극적 권리 — 국가에 요구 (교육·근로·인간다운 생활)"},
+    {q:"참정권의 성격은?",a:"능동적 권리 — 선거권, 공무담임권, 국민투표권"},
+    {q:"청구권의 종류 3가지는?",a:"재판 청구권, 국가배상청구권, 청원권"},
+    {q:"기본권 제한의 3가지 사유는?",a:"국가안전 보장, 질서유지, 공공복리"},
+    {q:"기본권 제한 시 지켜야 할 원칙은?",a:"법률로써 제한, 본질적 내용 침해 불가"},
+    {q:"노동3권은?",a:"단결권, 단체교섭권, 단체행동권"},
+    {q:"부당해고 vs 부당노동행위?",a:"부당해고 = 근로조건 침해\n부당노동행위 = 노동3권 침해"},
+    {q:"노동권 침해 시 구제 방법은?",a:"지방노동위원회 구제 신청\n→ 행정소송 또는 민사소송"},
   ],
-  2: [
-    { q: "국회의원 임기와 선출 방법은?", a: "4년, 직접선거 (지역구의원 + 비례대표의원)" },
-    { q: "국회의 3대 권한은?", a: "① 입법권 ② 재정권 ③ 일반 국정 권한" },
-    { q: "대통령의 임기와 특징은?", a: "5년 단임 (연임 불가), 직접선거" },
-    { q: "대통령의 행정부 수반 권한 3가지는?", a: "공무원임면권, 행정부 지휘·감독, 국군통수권" },
-    { q: "대통령의 국가원수 권한은?", a: "외교, 헌법기관 구성, 계엄선포권, 긴급명령권, 국민투표부의권" },
-    { q: "국무총리의 역할은?", a: "대통령 보좌, 행정각부 소관 감독" },
-    { q: "감사원의 역할은?", a: "세금 적정 집행 감사, 공무원 직무 감찰" },
-    { q: "대법원은 몇 심을 담당?", a: "3심 (최종심) — 2심의 상고사건 담당" },
-    { q: "재판의 2가지 원칙은?", a: "공개재판주의, 증거재판주의" },
-    { q: "헌법재판소 구성과 5가지 심판은?", a: "9인 / 위헌법률·헌법소원·정당해산·권한쟁의·탄핵심판" },
-    { q: "삼권분립의 목적은?", a: "국민의 기본권 보장과 민주주의 확립" },
-    { q: "법률 제정 절차는?", a: "제안 → 위원장 → 상임위원단 → 본회의 → 대통령 → 시행" },
+  2:[
+    {q:"국회의원 임기와 선출 방법?",a:"4년, 직접선거\n(지역구의원 + 비례대표의원)"},
+    {q:"국회의 3대 권한?",a:"① 입법권 ② 재정권 ③ 일반 국정 권한"},
+    {q:"대통령의 임기와 특징?",a:"5년 단임(연임 불가), 직접선거"},
+    {q:"대통령의 행정부 수반 권한 3가지?",a:"공무원임면권, 행정부 지휘·감독, 국군통수권"},
+    {q:"대통령의 국가원수 권한?",a:"외교, 헌법기관 구성, 계엄선포권,\n긴급명령권, 국민투표부의권"},
+    {q:"국무총리의 역할?",a:"대통령 보좌, 행정각부 소관 감독"},
+    {q:"감사원의 역할?",a:"세금 적정 집행 감사, 공무원 직무 감찰"},
+    {q:"대법원은 몇 심을 담당?",a:"3심(최종심) — 2심의 상고사건 담당"},
+    {q:"재판의 2가지 원칙?",a:"공개재판주의, 증거재판주의"},
+    {q:"헌법재판소 구성과 5가지 심판?",a:"9인 구성\n위헌법률·헌법소원·정당해산·권한쟁의·탄핵"},
+    {q:"삼권분립의 목적?",a:"국민의 기본권 보장과 민주주의 확립"},
+    {q:"법률 제정 절차?",a:"제안 → 위원장 → 상임위원단\n→ 본회의 → 대통령 → 시행"},
   ],
-  3: [
-    { q: "경제활동이란?", a: "재화와 서비스를 생산·분배·소비하는 활동" },
-    { q: "시장경제의 특징은?", a: "개인의 자유·사유재산 인정, 가격에 의해 자원 배분" },
-    { q: "합리적 선택이란?", a: "비용과 편익을 비교하여 편익이 큰 쪽을 선택" },
-    { q: "기회비용이란?", a: "어떤 선택을 함으로써 포기한 것의 가치" },
-    { q: "3가지 경제주체는?", a: "가계(소비), 기업(생산), 정부(공공재·시장실패 보완)" },
-    { q: "기업가 정신이란?", a: "혁신: 신제품 개발, 새로운 시장·조직 만들기" },
-    { q: "생애주기별 재무 특징 (20~30대)?", a: "결혼·출산·자녀 양육·주택 마련 / 저축 필요" },
-    { q: "금융 자산의 종류는?", a: "예금·적금, 주식·펀드, 부동산, 보험" },
+  3:[
+    {q:"경제활동이란?",a:"재화와 서비스를 생산·분배·소비하는 활동"},
+    {q:"시장경제의 특징?",a:"개인의 자유·사유재산 인정\n가격에 의해 자원 배분"},
+    {q:"합리적 선택이란?",a:"비용과 편익을 비교하여\n편익이 큰 쪽을 선택"},
+    {q:"기회비용이란?",a:"선택으로 포기한 것의 가치"},
+    {q:"3가지 경제주체?",a:"가계(소비), 기업(생산),\n정부(공공재·시장실패 보완)"},
+    {q:"기업가 정신이란?",a:"혁신: 신제품 개발,\n새로운 시장·조직 만들기"},
+    {q:"생애주기 20~30대 재무 특징?",a:"결혼·출산·자녀 양육·주택 마련\n저축 필요"},
+    {q:"금융 자산의 종류?",a:"예금·적금, 주식·펀드,\n부동산, 보험"},
   ],
-  4: [
-    { q: "시장이란?", a: "판매자와 구매자가 재화·서비스를 거래하는 곳" },
-    { q: "시장의 2가지 분류는?", a: "구체적 시장(실제 장소) vs 추상적 시장(온라인 등)" },
-    { q: "수요 법칙이란?", a: "가격↑ → 수요량↓ / 가격↓ → 수요량↑ (우하향)" },
-    { q: "공급 법칙이란?", a: "가격↑ → 공급량↑ / 가격↓ → 공급량↓ (우상향)" },
-    { q: "초과 수요란?", a: "가격이 낮아 수요 > 공급 → 가격 상승" },
-    { q: "초과 공급이란?", a: "가격이 높아 공급 > 수요 → 가격 하락" },
-    { q: "균형 가격이란?", a: "수요와 공급이 일치하는 가격" },
-    { q: "수요 변동 요인 5가지는?", a: "소득, 소비자 수, 기호, 관련재(대체재/보완재), 미래 가격 예측" },
-    { q: "공급 변동 요인은?", a: "생산비(원자재), 생산요소 가격, 공급자 수, 미래 가격 예측" },
-  ],
-};
-
-const quizData = {
-  1: [
-    { q: "다음 중 인권의 특성으로 옳지 않은 것은?", opts: ["천부적이다 (불가침)", "양도할 수 없다", "국가에 의해 부여된다", "보편적이다"], ans: 2, exp: "인권은 국가가 부여하는 것이 아니라 태어나면서부터 가지는 천부적 권리이다." },
-    { q: "\"국가 권력으로부터의 자유\"를 의미하는 소극적 권리는?", opts: ["사회권", "자유권", "참정권", "청구권"], ans: 1, exp: "자유권은 국가 권력의 간섭으로부터 자유를 보장받는 소극적 권리이다." },
-    { q: "기본권을 제한할 수 있는 사유가 아닌 것은?", opts: ["국가안전 보장", "질서유지", "경제 성장", "공공복리"], ans: 2, exp: "기본권 제한 사유는 국가안전 보장, 질서유지, 공공복리 3가지이다." },
-    { q: "노동3권에 해당하지 않는 것은?", opts: ["단결권", "단체교섭권", "단체행동권", "단체소송권"], ans: 3, exp: "노동3권은 단결권, 단체교섭권, 단체행동권이다." },
-    { q: "교육·근로·인간다운 생활을 국가에 요구하는 적극적 권리는?", opts: ["자유권", "참정권", "사회권", "평등권"], ans: 2, exp: "사회권은 적극적 권리로 교육, 근로, 인간다운 생활을 국가에 요구할 수 있다." },
-  ],
-  2: [
-    { q: "국회의원의 임기는?", opts: ["3년", "4년", "5년", "6년"], ans: 1, exp: "국회의원 임기는 4년이다." },
-    { q: "대통령의 임기와 연임 여부는?", opts: ["4년, 1회 연임 가능", "5년, 연임 불가", "5년, 1회 연임 가능", "6년, 연임 불가"], ans: 1, exp: "대통령 임기 5년, 단임제(연임 불가)이다." },
-    { q: "헌법재판소의 권한에 해당하지 않는 것은?", opts: ["위헌법률심판", "탄핵심판", "국정감사", "정당해산심판"], ans: 2, exp: "국정감사는 국회의 권한이다." },
-    { q: "대법원이 담당하는 재판 심급은?", opts: ["1심", "2심", "3심 (최종심)", "특별심"], ans: 2, exp: "대법원은 최종심(3심)을 담당하며 2심의 상고사건을 처리한다." },
-    { q: "삼권분립에서 국회가 행정부를 견제하는 수단은?", opts: ["법률안 거부권", "위헌 법률 심사 제청", "국정감사 및 탄핵소추", "명령·규칙 심사"], ans: 2, exp: "국회는 국정감사와 탄핵소추를 통해 행정부를 견제한다." },
-  ],
-  3: [
-    { q: "경제활동의 3가지 요소가 올바르게 나열된 것은?", opts: ["생산, 교환, 저축", "생산, 분배, 소비", "소비, 투자, 저축", "생산, 소비, 투자"], ans: 1, exp: "경제활동은 재화와 서비스의 생산, 분배, 소비를 말한다." },
-    { q: "시장경제에서 자원 배분의 핵심 기능을 하는 것은?", opts: ["정부의 명령", "가격", "전통과 관습", "국회의 법률"], ans: 1, exp: "시장경제에서는 가격에 의해 자원이 배분된다." },
-    { q: "합리적 선택을 위해 비교해야 하는 두 가지는?", opts: ["수요와 공급", "비용과 편익", "소득과 지출", "저축과 투자"], ans: 1, exp: "합리적 선택은 비용과 편익을 비교하여 편익이 큰 쪽을 선택하는 것이다." },
-    { q: "경제주체와 역할이 올바르게 연결된 것은?", opts: ["가계 — 생산", "기업 — 소비", "정부 — 공공재 공급, 시장실패 보완", "가계 — 공공재 공급"], ans: 2, exp: "가계=소비, 기업=생산, 정부=공공재 공급 및 시장실패 보완이다." },
-    { q: "어떤 선택으로 포기한 것의 가치를 무엇이라 하는가?", opts: ["매몰 비용", "기회비용", "한계비용", "고정비용"], ans: 1, exp: "기회비용은 어떤 것을 선택함으로써 포기한 대안의 가치이다." },
-  ],
-  4: [
-    { q: "수요 법칙에 따르면, 가격이 오르면 수요량은?", opts: ["증가한다", "감소한다", "변하지 않는다", "두 배가 된다"], ans: 1, exp: "수요 법칙: 가격↑ → 수요량↓ (반비례)" },
-    { q: "시장에서 초과 수요가 발생하면 가격은?", opts: ["하락한다", "상승한다", "유지된다", "정부가 결정한다"], ans: 1, exp: "초과 수요(수요 > 공급) → 가격 상승" },
-    { q: "균형 가격이란?", opts: ["정부가 정한 가격", "가장 낮은 가격", "수요량과 공급량이 일치하는 가격", "생산 비용과 같은 가격"], ans: 2, exp: "균형 가격은 수요와 공급이 만나는 점에서의 가격이다." },
-    { q: "수요 변동 요인에 해당하지 않는 것은?", opts: ["소비자의 소득", "소비자의 기호", "원자재 가격 변동", "대체재의 가격"], ans: 2, exp: "원자재 가격은 공급 변동 요인이다." },
-    { q: "공급 곡선의 모양은?", opts: ["우하향 (↘)", "우상향 (↗)", "수평선 (→)", "수직선 (↑)"], ans: 1, exp: "공급 곡선은 가격↑ → 공급량↑이므로 우상향한다." },
+  4:[
+    {q:"시장이란?",a:"판매자와 구매자가\n재화·서비스를 거래하는 곳"},
+    {q:"시장의 2가지 분류?",a:"구체적 시장(실제 장소)\nvs 추상적 시장(온라인 등)"},
+    {q:"수요 법칙?",a:"가격↑ → 수요량↓\n가격↓ → 수요량↑ (우하향)"},
+    {q:"공급 법칙?",a:"가격↑ → 공급량↑\n가격↓ → 공급량↓ (우상향)"},
+    {q:"초과 수요란?",a:"가격이 낮아 수요 > 공급\n→ 가격 상승"},
+    {q:"초과 공급이란?",a:"가격이 높아 공급 > 수요\n→ 가격 하락"},
+    {q:"균형 가격이란?",a:"수요와 공급이 일치하는 가격"},
+    {q:"수요 변동 요인 5가지?",a:"소득, 소비자 수, 기호,\n관련재(대체재/보완재), 미래 가격 예측"},
+    {q:"공급 변동 요인?",a:"생산비(원자재), 생산요소 가격,\n공급자 수, 미래 가격 예측"},
   ],
 };
 
-const shortData = {
-  1: [
-    { q: "헌법에 기록된 인권을 무엇이라 하는가?", answers: [["기본권"]] },
-    { q: "기본권 제한 시 반드시 _____(으)로써 해야 하며, _____적 내용은 침해할 수 없다.", answers: [["법률"], ["본질"]] },
-    { q: "단결권, 단체교섭권, 단체행동권을 통틀어?", answers: [["노동3권", "노동 3권", "노동삼권"]] },
-    { q: "노동권 침해 시 가장 먼저 구제 신청하는 기관은?", answers: [["지방노동위원회"]] },
-    { q: "국가에 적극적으로 인간다운 생활을 요구하는 권리는?", answers: [["사회권"]] },
+const MC = {
+  1:[
+    {q:"다음 중 인권의 특성으로 옳지 않은 것은?",o:["천부적이다 (불가침)","양도할 수 없다","국가에 의해 부여된다","보편적이다"],a:2,e:"인권은 국가가 부여하는 것이 아니라 태어나면서부터 가지는 천부적 권리이다."},
+    {q:"\"국가 권력으로부터의 자유\"를 의미하는 소극적 권리는?",o:["사회권","자유권","참정권","청구권"],a:1,e:"자유권은 국가 권력의 간섭으로부터 자유를 보장받는 소극적 권리이다."},
+    {q:"기본권 제한 사유가 아닌 것은?",o:["국가안전 보장","질서유지","경제 성장","공공복리"],a:2,e:"기본권 제한 사유는 국가안전 보장, 질서유지, 공공복리 3가지이다."},
+    {q:"노동3권에 해당하지 않는 것은?",o:["단결권","단체교섭권","단체행동권","단체소송권"],a:3,e:"노동3권은 단결권, 단체교섭권, 단체행동권이다."},
+    {q:"교육·근로·인간다운 생활을 요구하는 적극적 권리는?",o:["자유권","참정권","사회권","평등권"],a:2,e:"사회권은 적극적 권리로 교육, 근로, 인간다운 생활을 국가에 요구할 수 있다."},
   ],
-  2: [
-    { q: "국회의원 임기는 ___년, 대통령 임기는 ___년이다.", answers: [["4"], ["5"]] },
-    { q: "대법원은 ___심(최종심)을 담당한다.", answers: [["3"]] },
-    { q: "헌법재판소는 ___인으로 구성된다.", answers: [["9"]] },
-    { q: "헌법재판소의 5가지 심판을 쓰시오. (하나만)", answers: [["위헌법률심판", "헌법소원심판", "정당해산심판", "권한쟁의심판", "탄핵심판"]] },
-    { q: "입법·행정·사법으로 나누어 견제하는 원리를?", answers: [["삼권분립"]] },
+  2:[
+    {q:"국회의원의 임기는?",o:["3년","4년","5년","6년"],a:1,e:"국회의원 임기는 4년이다."},
+    {q:"대통령의 임기와 연임 여부는?",o:["4년, 1회 연임 가능","5년, 연임 불가","5년, 1회 연임 가능","6년, 연임 불가"],a:1,e:"대통령 임기 5년, 단임제(연임 불가)이다."},
+    {q:"헌법재판소의 권한이 아닌 것은?",o:["위헌법률심판","탄핵심판","국정감사","정당해산심판"],a:2,e:"국정감사는 국회의 권한이다."},
+    {q:"대법원이 담당하는 심급은?",o:["1심","2심","3심 (최종심)","특별심"],a:2,e:"대법원은 최종심(3심)을 담당한다."},
+    {q:"국회가 행정부를 견제하는 수단은?",o:["법률안 거부권","위헌 법률 심사 제청","국정감사 및 탄핵소추","명령·규칙 심사"],a:2,e:"국회는 국정감사와 탄핵소추로 행정부를 견제한다."},
   ],
-  3: [
-    { q: "경제활동의 3가지 요소는? (하나만)", answers: [["생산", "분배", "소비"]] },
-    { q: "시장경제에서 자원 배분의 핵심 역할은?", answers: [["가격"]] },
-    { q: "선택함으로써 포기한 것의 가치를?", answers: [["기회비용"]] },
-    { q: "3가지 경제주체를 쓰시오. (하나만)", answers: [["가계", "기업", "정부"]] },
-    { q: "혁신을 통해 새 가치를 창출하는 정신은?", answers: [["기업가 정신", "기업가정신"]] },
+  3:[
+    {q:"경제활동 3요소가 올바른 것은?",o:["생산, 교환, 저축","생산, 분배, 소비","소비, 투자, 저축","생산, 소비, 투자"],a:1,e:"경제활동은 재화와 서비스의 생산, 분배, 소비이다."},
+    {q:"시장경제에서 자원 배분의 핵심은?",o:["정부의 명령","가격","전통과 관습","국회의 법률"],a:1,e:"시장경제에서는 가격에 의해 자원이 배분된다."},
+    {q:"합리적 선택을 위해 비교하는 두 가지는?",o:["수요와 공급","비용과 편익","소득과 지출","저축과 투자"],a:1,e:"비용과 편익을 비교하여 편익이 큰 쪽을 선택한다."},
+    {q:"경제주체와 역할이 올바른 것은?",o:["가계 — 생산","기업 — 소비","정부 — 공공재 공급","가계 — 공공재 공급"],a:2,e:"가계=소비, 기업=생산, 정부=공공재 공급이다."},
+    {q:"선택으로 포기한 것의 가치를?",o:["매몰 비용","기회비용","한계비용","고정비용"],a:1,e:"기회비용은 포기한 대안의 가치이다."},
   ],
-  4: [
-    { q: "가격이 오르면 수요량은 _____, 공급량은 _____.", answers: [["감소"], ["증가"]] },
-    { q: "수요량과 공급량이 일치하는 가격을?", answers: [["균형 가격", "균형가격"]] },
-    { q: "수요 곡선은 _____ 형태이다.", answers: [["우하향"]] },
-    { q: "초과 수요 시 가격은 _____, 초과 공급 시 가격은 _____.", answers: [["상승"], ["하락"]] },
-    { q: "공급 곡선은 _____ 형태이다.", answers: [["우상향"]] },
+  4:[
+    {q:"가격이 오르면 수요량은?",o:["증가한다","감소한다","변하지 않는다","두 배가 된다"],a:1,e:"수요 법칙: 가격↑ → 수요량↓"},
+    {q:"초과 수요가 발생하면 가격은?",o:["하락한다","상승한다","유지된다","정부가 결정"],a:1,e:"초과 수요 → 가격 상승"},
+    {q:"균형 가격이란?",o:["정부가 정한 가격","가장 낮은 가격","수요량·공급량 일치 가격","생산비용 = 가격"],a:2,e:"수요와 공급이 만나는 점의 가격이다."},
+    {q:"수요 변동 요인이 아닌 것은?",o:["소비자의 소득","소비자의 기호","원자재 가격","대체재의 가격"],a:2,e:"원자재 가격은 공급 변동 요인이다."},
+    {q:"공급 곡선의 모양은?",o:["우하향 (↘)","우상향 (↗)","수평선 (→)","수직선 (↑)"],a:1,e:"가격↑ → 공급량↑ → 우상향"},
   ],
 };
 
-const unitNames = ["", "1단원: 인권과 헌법", "2단원: 국가기관", "3단원: 경제생활", "4단원: 시장과 가격"];
-const unitColors = ["", "#818cf8", "#f87171", "#60a5fa", "#34d399"];
+const SA = {
+  1:[
+    {q:"헌법에 기록된 인권을 무엇이라 하는가?",ans:[["기본권"]]},
+    {q:"기본권 제한 시 _____(으)로써 해야 하며,\n_____적 내용은 침해 불가.",ans:[["법률"],["본질"]]},
+    {q:"단결권, 단체교섭권, 단체행동권을 통틀어?",ans:[["노동3권","노동 3권","노동삼권"]]},
+    {q:"노동권 침해 시 가장 먼저 구제 신청하는 기관?",ans:[["지방노동위원회"]]},
+    {q:"국가에 적극적으로 인간다운 생활을 요구하는 권리?",ans:[["사회권"]]},
+  ],
+  2:[
+    {q:"국회의원 임기는 ___년,\n대통령 임기는 ___년이다.",ans:[["4"],["5"]]},
+    {q:"대법원은 ___심(최종심)을 담당한다.",ans:[["3"]]},
+    {q:"헌법재판소는 ___인으로 구성된다.",ans:[["9"]]},
+    {q:"헌법재판소 5가지 심판 중 하나를 쓰시오.",ans:[["위헌법률심판","헌법소원심판","정당해산심판","권한쟁의심판","탄핵심판"]]},
+    {q:"입법·행정·사법으로 나누어 견제하는 원리?",ans:[["삼권분립"]]},
+  ],
+  3:[
+    {q:"경제활동의 3요소 중 하나를 쓰시오.",ans:[["생산","분배","소비"]]},
+    {q:"시장경제에서 자원 배분의 핵심?",ans:[["가격"]]},
+    {q:"선택으로 포기한 것의 가치를?",ans:[["기회비용"]]},
+    {q:"3가지 경제주체 중 하나를 쓰시오.",ans:[["가계","기업","정부"]]},
+    {q:"혁신으로 새 가치를 창출하는 정신?",ans:[["기업가 정신","기업가정신"]]},
+  ],
+  4:[
+    {q:"가격↑ → 수요량은 _____,\n공급량은 _____.",ans:[["감소"],["증가"]]},
+    {q:"수요량과 공급량이 일치하는 가격?",ans:[["균형 가격","균형가격"]]},
+    {q:"수요 곡선은 _____ 형태이다.",ans:[["우하향"]]},
+    {q:"초과 수요 → 가격 _____,\n초과 공급 → 가격 _____.",ans:[["상승"],["하락"]]},
+    {q:"공급 곡선은 _____ 형태이다.",ans:[["우상향"]]},
+  ],
+};
 
-// ===== STATE =====
-let currentTab = "flashcard";
-let currentUnit = 1;
-let fcIndex = 0;
+const UNIT_NAMES = ["","1단원","2단원","3단원","4단원"];
+const BADGE_COLORS = ["","rgba(129,140,248,0.15);color:#818cf8","rgba(248,113,113,0.15);color:#f87171","rgba(96,165,250,0.15);color:#60a5fa","rgba(52,211,153,0.15);color:#34d399"];
+
+// ========== STATE ==========
+let mode = "fc"; // fc | mc | sa
+let unit = 1;
+let idx = 0;
 let fcFlipped = false;
-let qzAnswered = {};
-let saAnswered = {};
+let mcLocked = false;
+let saLocked = false;
+let scores = {}; // key: "mc-1-2" => true/false
 
-// ===== TAB SWITCHING =====
-document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentTab = btn.dataset.tab;
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById("sec-" + currentTab).classList.add("active");
-  });
-});
-
-// ===== UNIT SELECTORS =====
-function buildUnitBtns(containerId, onChange) {
-  const c = document.getElementById(containerId);
-  c.innerHTML = "";
-  [1,2,3,4].forEach(u => {
-    const b = document.createElement("button");
-    b.className = "unit-btn" + (u === currentUnit ? " active" : "");
-    b.dataset.unit = u;
-    b.textContent = unitNames[u];
-    b.addEventListener("click", () => {
-      c.querySelectorAll(".unit-btn").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      currentUnit = u;
-      onChange(u);
-    });
-    c.appendChild(b);
-  });
+function getData() {
+  if (mode === "fc") return FC[unit] || [];
+  if (mode === "mc") return MC[unit] || [];
+  return SA[unit] || [];
 }
 
-// ===== FLASHCARD =====
-function renderFC() {
-  const cards = flashcards[currentUnit];
-  if (!cards || cards.length === 0) return;
-  if (fcIndex >= cards.length) fcIndex = 0;
-  const card = cards[fcIndex];
-  document.getElementById("fc-front-text").textContent = card.q;
-  document.getElementById("fc-back-text").textContent = card.a;
-  document.getElementById("fc-counter").textContent = `${fcIndex + 1} / ${cards.length}`;
-  document.getElementById("fc-progress").style.width = `${((fcIndex + 1) / cards.length) * 100}%`;
-  // Reset flip
+// ========== RENDER ==========
+function renderTabs() {
+  const tabs = [
+    {id:"fc", label:"🃏 플래시카드"},
+    {id:"mc", label:"📋 4지선다"},
+    {id:"sa", label:"✏️ 단답형"},
+  ];
+  document.getElementById("tabNav").innerHTML = tabs.map(t =>
+    `<button class="tab-btn${t.id===mode?" active":""}" onclick="switchMode('${t.id}')">${t.label}</button>`
+  ).join("");
+}
+
+function renderUnits() {
+  document.getElementById("unitPills").innerHTML = [1,2,3,4].map(u =>
+    `<button class="unit-pill${u===unit?" active":""}" data-u="${u}" onclick="switchUnit(${u})">${UNIT_NAMES[u]}</button>`
+  ).join("");
+}
+
+function renderBottom() {
+  const data = getData();
+  const total = data.length;
+  document.getElementById("counter").textContent = `${idx+1} / ${total}`;
+  document.getElementById("progressFill").style.width = `${((idx+1)/total)*100}%`;
+
+  let btns = `<button class="nav-btn" onclick="goPrev()">← 이전</button>`;
+  if (mode === "fc") btns += `<button class="nav-btn" onclick="doShuffle()">🔀 섞기</button>`;
+  btns += `<button class="nav-btn primary" onclick="goNext()">다음 →</button>`;
+  document.getElementById("navRow").innerHTML = btns;
+}
+
+function renderStage() {
+  const stage = document.getElementById("stage");
+  if (mode === "fc") renderFC(stage);
+  else if (mode === "mc") renderMC(stage);
+  else renderSA(stage);
+  renderBottom();
+}
+
+// ----- Flashcard -----
+function renderFC(stage) {
+  const card = FC[unit][idx];
   fcFlipped = false;
-  document.getElementById("fc-wrapper").classList.remove("flipped");
-}
-
-function flipCard() {
-  fcFlipped = !fcFlipped;
-  document.getElementById("fc-wrapper").classList.toggle("flipped");
-}
-
-function fcNext() {
-  const cards = flashcards[currentUnit];
-  fcIndex = (fcIndex + 1) % cards.length;
-  renderFC();
-}
-
-function fcPrev() {
-  const cards = flashcards[currentUnit];
-  fcIndex = (fcIndex - 1 + cards.length) % cards.length;
-  renderFC();
-}
-
-function fcShuffle() {
-  const cards = flashcards[currentUnit];
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
-  }
-  fcIndex = 0;
-  renderFC();
-}
-
-// ===== QUIZ =====
-function renderQuiz(unit) {
-  const list = document.getElementById("qz-list");
-  list.innerHTML = "";
-  const data = quizData[unit] || [];
-  qzAnswered = {};
-  updateQuizScore(unit);
-
-  data.forEach((item, i) => {
-    const card = document.createElement("div");
-    card.className = "quiz-card";
-    card.dataset.unit = unit;
-    card.style.animationDelay = `${i * 0.08}s`;
-
-    let optsHTML = item.opts.map((o, oi) =>
-      `<button class="quiz-option" data-q="${i}" data-o="${oi}" onclick="selectQuizOpt(${unit},${i},${oi},this)">
-        ${["①","②","③","④"][oi]} ${o}
-      </button>`
-    ).join("");
-
-    card.innerHTML = `
-      <div class="quiz-number">Q${i+1}</div>
-      <div class="quiz-question">${item.q}</div>
-      <div class="quiz-options">${optsHTML}</div>
-      <div class="quiz-explanation" id="qz-exp-${unit}-${i}">💡 ${item.exp}</div>
-    `;
-    list.appendChild(card);
-  });
-}
-
-function selectQuizOpt(unit, qi, oi, btn) {
-  if (qzAnswered[`${unit}-${qi}`]) return;
-  qzAnswered[`${unit}-${qi}`] = true;
-
-  const data = quizData[unit][qi];
-  const card = btn.closest(".quiz-card");
-  const opts = card.querySelectorAll(".quiz-option");
-
-  opts.forEach((o, idx) => {
-    o.classList.add("disabled");
-    if (idx === data.ans) o.classList.add("correct");
-  });
-
-  if (oi !== data.ans) btn.classList.add("wrong");
-
-  document.getElementById(`qz-exp-${unit}-${qi}`).classList.add("show");
-  updateQuizScore(unit);
-}
-
-function updateQuizScore(unit) {
-  const data = quizData[unit] || [];
-  let correct = 0, total = 0;
-  data.forEach((item, i) => {
-    if (qzAnswered[`${unit}-${i}`]) {
-      total++;
-      const card = document.querySelectorAll(`#qz-list .quiz-card`)[i];
-      if (card) {
-        const opts = card.querySelectorAll(".quiz-option");
-        if (opts[item.ans] && opts[item.ans].classList.contains("correct")) {
-          const wrongExists = Array.from(opts).some(o => o.classList.contains("wrong"));
-          if (!wrongExists || opts[item.ans].classList.contains("correct")) {
-            // Check if user selected correctly
-            const wrongBtn = card.querySelector(".quiz-option.wrong");
-            if (!wrongBtn) correct++;
-          }
-        }
-      }
-    }
-  });
-  document.getElementById("qz-score").textContent = `${correct} / ${data.length}`;
-}
-
-function resetQuiz() {
-  renderQuiz(currentUnit);
-}
-
-// ===== SHORT ANSWER =====
-function renderShort(unit) {
-  const list = document.getElementById("sa-list");
-  list.innerHTML = "";
-  const data = shortData[unit] || [];
-  saAnswered = {};
-  updateShortScore(unit);
-
-  data.forEach((item, i) => {
-    const card = document.createElement("div");
-    card.className = "short-card";
-    card.dataset.unit = unit;
-    card.style.animationDelay = `${i * 0.08}s`;
-
-    const inputCount = item.answers.length;
-    let inputsHTML = "";
-    for (let j = 0; j < inputCount; j++) {
-      inputsHTML += `<input type="text" class="short-input" id="sa-input-${unit}-${i}-${j}" placeholder="답을 입력하세요" onkeydown="if(event.key==='Enter')checkShort(${unit},${i})">`;
-    }
-
-    card.innerHTML = `
-      <div class="quiz-number" style="background:rgba(${unit===1?'129,140,248':unit===2?'248,113,113':unit===3?'96,165,250':'52,211,153'},0.15);color:${unitColors[unit]}">S${i+1}</div>
-      <div class="quiz-question">${item.q}</div>
-      <div class="short-input-group">
-        ${inputsHTML}
-        <button class="check-btn" onclick="checkShort(${unit},${i})">확인</button>
+  stage.innerHTML = `
+    <div class="fc-scene">
+      <div class="fc-card" id="fcCard" onclick="flipFC()">
+        <div class="fc-face fc-front">
+          <div class="fc-label">질문</div>
+          <div class="fc-text">${esc(card.q)}</div>
+          <div class="fc-tap">탭하여 뒤집기</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-label">정답</div>
+          <div class="fc-text">${esc(card.a)}</div>
+          <div class="fc-tap">탭하여 돌아가기</div>
+        </div>
       </div>
-      <div class="short-answer" id="sa-ans-${unit}-${i}"></div>
-    `;
-    list.appendChild(card);
-  });
+    </div>`;
 }
 
-function checkShort(unit, qi) {
-  if (saAnswered[`${unit}-${qi}`]) return;
-  saAnswered[`${unit}-${qi}`] = true;
+function flipFC() {
+  fcFlipped = !fcFlipped;
+  document.getElementById("fcCard").classList.toggle("flipped");
+}
 
-  const item = shortData[unit][qi];
-  let allCorrect = true;
+// ----- Multiple Choice -----
+function renderMC(stage) {
+  const item = MC[unit][idx];
+  mcLocked = false;
+  const key = `mc-${unit}-${idx}`;
+  const badge = BADGE_COLORS[unit];
+  stage.innerHTML = `
+    <div class="qcard" id="qcard">
+      <div class="qcard-badge" style="background:${badge}">Q${idx+1}</div>
+      <div class="qcard-q">${esc(item.q)}</div>
+      <div class="mc-opts" id="mcOpts">
+        ${item.o.map((o,i) => `<button class="mc-opt" data-i="${i}" onclick="pickMC(${i})">${["①","②","③","④"][i]} ${esc(o)}</button>`).join("")}
+      </div>
+      <div id="mcExp"></div>
+    </div>`;
+}
 
-  for (let j = 0; j < item.answers.length; j++) {
-    const input = document.getElementById(`sa-input-${unit}-${qi}-${j}`);
-    const val = input.value.trim();
-    const acceptable = item.answers[j];
-    const isCorrect = acceptable.some(a => val === a);
+function pickMC(i) {
+  if (mcLocked) return;
+  mcLocked = true;
+  const item = MC[unit][idx];
+  const key = `mc-${unit}-${idx}`;
+  const opts = document.querySelectorAll(".mc-opt");
+  opts.forEach((o, oi) => {
+    o.classList.add("locked");
+    if (oi === item.a) o.classList.add("correct");
+  });
+  if (i !== item.a) opts[i].classList.add("wrong");
+  scores[key] = (i === item.a);
+  document.getElementById("mcExp").innerHTML = `<div class="mc-exp">💡 ${esc(item.e)}</div>`;
+  // Auto-advance after delay
+  setTimeout(() => { if (idx < MC[unit].length - 1) goNext(); else showScore("mc"); }, 1800);
+}
 
-    input.disabled = true;
-    if (isCorrect) {
-      input.classList.add("correct");
-    } else {
-      input.classList.add("wrong");
-      allCorrect = false;
-    }
+// ----- Short Answer -----
+function renderSA(stage) {
+  const item = SA[unit][idx];
+  saLocked = false;
+  const badge = BADGE_COLORS[unit];
+  const inputs = item.ans.map((_, j) =>
+    `<input class="sa-input" id="saIn${j}" placeholder="답 입력" onkeydown="if(event.key==='Enter')checkSA()">`
+  ).join("");
+  stage.innerHTML = `
+    <div class="qcard">
+      <div class="qcard-badge" style="background:${badge}">S${idx+1}</div>
+      <div class="qcard-q">${esc(item.q)}</div>
+      <div class="sa-inputs">
+        <div class="sa-row">${inputs}<button class="sa-submit" onclick="checkSA()">확인</button></div>
+      </div>
+      <div id="saResult"></div>
+    </div>`;
+  // Auto-focus first input
+  setTimeout(() => { const el = document.getElementById("saIn0"); if (el) el.focus(); }, 100);
+}
+
+function checkSA() {
+  if (saLocked) return;
+  saLocked = true;
+  const item = SA[unit][idx];
+  const key = `sa-${unit}-${idx}`;
+  let allOk = true;
+  for (let j = 0; j < item.ans.length; j++) {
+    const inp = document.getElementById(`saIn${j}`);
+    const val = inp.value.trim();
+    const ok = item.ans[j].some(a => val === a);
+    inp.disabled = true;
+    inp.classList.add(ok ? "correct" : "wrong");
+    if (!ok) allOk = false;
   }
-
-  const ansDiv = document.getElementById(`sa-ans-${unit}-${qi}`);
-  ansDiv.classList.add("show");
-  if (allCorrect) {
-    ansDiv.className = "short-answer show correct-answer";
-    ansDiv.textContent = "✅ 정답!";
+  scores[key] = allOk;
+  const rd = document.getElementById("saResult");
+  if (allOk) {
+    rd.innerHTML = `<div class="sa-result ok">✅ 정답!</div>`;
   } else {
-    ansDiv.className = "short-answer show wrong-answer";
-    ansDiv.textContent = "❌ 정답: " + item.answers.map(a => a[0]).join(" / ");
+    rd.innerHTML = `<div class="sa-result fail">❌ 정답: ${item.ans.map(a=>a[0]).join(" / ")}</div>`;
   }
-
-  updateShortScore(unit);
+  setTimeout(() => { if (idx < SA[unit].length - 1) goNext(); else showScore("sa"); }, 1800);
 }
 
-function updateShortScore(unit) {
-  const data = shortData[unit] || [];
-  let correct = 0, total = 0;
-  data.forEach((item, i) => {
-    if (saAnswered[`${unit}-${i}`]) {
-      total++;
-      const ansDiv = document.getElementById(`sa-ans-${unit}-${i}`);
-      if (ansDiv && ansDiv.classList.contains("correct-answer")) correct++;
-    }
-  });
-  document.getElementById("sa-score").textContent = `${correct} / ${data.length}`;
+// ========== NAVIGATION ==========
+function switchMode(m) { mode = m; idx = 0; renderTabs(); renderStage(); }
+function switchUnit(u) { unit = u; idx = 0; renderUnits(); renderStage(); }
+function goPrev() { const d = getData(); idx = (idx - 1 + d.length) % d.length; renderStage(); }
+function goNext() { const d = getData(); idx = (idx + 1) % d.length; renderStage(); }
+function doShuffle() {
+  const arr = FC[unit];
+  for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]] = [arr[j],arr[i]]; }
+  idx = 0; renderStage();
 }
 
-function resetShort() {
-  renderShort(currentUnit);
+// ========== SCORE ==========
+function showScore(type) {
+  const data = type === "mc" ? MC[unit] : SA[unit];
+  let correct = 0;
+  data.forEach((_, i) => { if (scores[`${type}-${unit}-${i}`]) correct++; });
+  const pct = Math.round((correct / data.length) * 100);
+  const emoji = pct === 100 ? "🎉" : pct >= 60 ? "👍" : "💪";
+  const ov = document.getElementById("scoreOverlay");
+  ov.classList.remove("hidden");
+  ov.innerHTML = `
+    <div class="score-box">
+      <div class="score-emoji">${emoji}</div>
+      <div class="score-num">${correct} / ${data.length}</div>
+      <div class="score-sub">${pct}% 정답률</div>
+      <div class="score-actions">
+        <button class="score-btn" onclick="closeScore()">닫기</button>
+        <button class="score-btn primary" onclick="retryQuiz('${type}')">🔄 다시 풀기</button>
+      </div>
+    </div>`;
 }
 
-// ===== INIT =====
-function init() {
-  buildUnitBtns("fc-units", u => { fcIndex = 0; renderFC(); });
-  buildUnitBtns("qz-units", u => renderQuiz(u));
-  buildUnitBtns("sa-units", u => renderShort(u));
-  renderFC();
-  renderQuiz(1);
-  renderShort(1);
+function closeScore() { document.getElementById("scoreOverlay").classList.add("hidden"); }
+function retryQuiz(type) {
+  const data = type === "mc" ? MC[unit] : SA[unit];
+  data.forEach((_, i) => { delete scores[`${type}-${unit}-${i}`]; });
+  idx = 0;
+  closeScore();
+  renderStage();
 }
 
-// Keyboard nav for flashcards
+// ========== KEYBOARD ==========
 document.addEventListener("keydown", e => {
-  if (currentTab !== "flashcard") return;
-  if (e.key === "ArrowRight") fcNext();
-  else if (e.key === "ArrowLeft") fcPrev();
-  else if (e.key === " " || e.key === "Enter") { e.preventDefault(); flipCard(); }
+  if (e.key === "ArrowRight") goNext();
+  else if (e.key === "ArrowLeft") goPrev();
+  else if ((e.key === " " || e.key === "Enter") && mode === "fc") { e.preventDefault(); flipFC(); }
 });
 
-init();
+// ========== SWIPE ==========
+let tx = 0;
+document.addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, {passive:true});
+document.addEventListener("touchend", e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 60) { dx > 0 ? goPrev() : goNext(); }
+}, {passive:true});
+
+// ========== UTIL ==========
+function esc(s) { return s.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>"); }
+
+// ========== INIT ==========
+renderTabs();
+renderUnits();
+renderStage();
 </script>
 </body>
 </html>
